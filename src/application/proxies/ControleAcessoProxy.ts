@@ -14,11 +14,6 @@ export interface IUsuarioService {
     atualizarDadosPessoais(usuarioLogado: Usuario, dadosSalvos: Usuario, novosDados: any): void;
 }
 
-export interface IConsultaService {
-    marcarConsulta(usuarioLogado: Usuario, tipoConsulta: string): any;
-    listarConsulta(usuarioLogado: Usuario): any[];
-}
-
 // Serviços Reais: Focados apenas na regra de manipulação dos registros (SRP)
 export class ProntuarioService implements IProntuarioService {
     constructor(private prontuarioRepo: IProntuarioRepository) {}
