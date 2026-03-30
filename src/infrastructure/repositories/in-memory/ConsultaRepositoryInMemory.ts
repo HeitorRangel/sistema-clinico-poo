@@ -10,7 +10,7 @@ export class ConsultaRepositoryInMemory implements IConsultaRepository {
     }
 
     public buscarPorPaciente(cpf: string): Consulta[] {
-        return this.consultas.filter(c => c.pacienteId === cpf); // Utilizando CPF como id por simplicidade relacional anterior
+        return this.consultas.filter(c => c.pacienteId === cpf); // Relacionamento OneToMany (Paciente -> Consultas)
     }
 
     public listar(): Consulta[] {
@@ -18,7 +18,7 @@ export class ConsultaRepositoryInMemory implements IConsultaRepository {
     }
 
     public salvar(consulta: Consulta): void {
-        // Regra: 1 Consulta -> 1 Horario. Garantimos update se horarioId bater ou inserimos novo
+        // Upsert baseado em HorarioId (Relação 1:1 Consulta/Horário)
         const index = this.consultas.findIndex(c => c.id === consulta.id);
         if (index >= 0) {
             this.consultas[index] = consulta;

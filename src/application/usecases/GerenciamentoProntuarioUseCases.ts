@@ -15,7 +15,7 @@ export class GerenciarProntuarioUseCase {
             throw new Error('Prontuário inválido.');
         }
 
-        // Regra Especial de Negócio: Dentista só atende pacientes da sua cartela
+        // Validação de vínculo clínico prévio (RN11)
         const atendeuEstePaciente = this.consultaRepo.buscarPorDentistaEPaciente(
             dentistaLogado.cpf, prontuario.pacienteId
         );
@@ -24,7 +24,7 @@ export class GerenciarProntuarioUseCase {
             throw new Error('Permissão Negada: Este dentista não possui liberação clínica sobre este paciente.');
         }
 
-        // Processamento aprovado
+        // Mutação de Prontuário
         prontuario.adicionarExame(exameDescricao);
         this.prontuarioRepo.salvar(prontuario);
     }

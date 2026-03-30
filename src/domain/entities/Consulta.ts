@@ -8,7 +8,7 @@ export abstract class Consulta {
         public statusConsulta: 'SOLICITADA' | 'AGENDADA' | 'REALIZADA' | 'CANCELADA'
     ) {}
 
-    // Permite polimorfismo baseado na natureza da consulta
+    // Polimorfismo baseado em Tipo
     public abstract get tipoConsulta(): string;
 
     public alterarStatus(novoStatus: 'SOLICITADA' | 'AGENDADA' | 'REALIZADA' | 'CANCELADA'): void {

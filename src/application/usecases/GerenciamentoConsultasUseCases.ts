@@ -10,8 +10,11 @@ export class SolicitarConsultaUseCase {
         private readonly consultaRepo: IConsultaRepository
     ) {}
 
-    public async executar(paciente: Paciente, tipo: string, horarioId: string, valorBase: number): Promise<Consulta> {
-        // Busca o horário selecionado e verifica a disponibilidade real (Evita concorrencia de tela)
+    public async executar(paciente: Paciente, tipo: string, horarioId: string): Promise<Consulta> {
+        // Tabela de Preços do Domínio (Blindado do Cliente Web)
+        const valorTabelado = 150.00;
+
+        // Verifica disponibilidade de horário
         const horario = this.horariosRepo.buscarPorId(horarioId);
         if (!horario) throw new Error('Horário inexistente.');
         
@@ -19,15 +22,15 @@ export class SolicitarConsultaUseCase {
             throw new Error('Horário indisponível para marcação.');
         }
 
-        // Trava o horário usando a Regra de Negócio da própria entidade Horario
+        // Reserva de horário
         horario.reservarHorario();
         this.horariosRepo.salvar(horario);
 
-        // Fabrica a consulta já com os apontamentos core do Diagrama UML (1 Consulta -> 1 Horario)
+        // Construção da entidade Consulta
         const idGerado = `consulta-${Date.now()}`;
-        const novaConsulta = ConsultaFactory.criarConsulta(tipo, idGerado, paciente.cpf, horario.dentistaId, horario.id, valorBase);
+        const novaConsulta = ConsultaFactory.criarConsulta(tipo, idGerado, paciente.cpf, horario.dentistaId, horario.id, valorTabelado);
 
-        // Mantem o estado como SOLICITADA aguardando aprovação caso a clínica exija
+        // Persistência da Consulta pendente
         this.consultaRepo.salvar(novaConsulta);
 
         return novaConsulta;
@@ -38,7 +41,7 @@ export class AprovarConsultaUseCase {
     constructor(private readonly consultaRepo: IConsultaRepository) {}
 
     public executar(secretaria: Secretaria, consultaId: string): Consulta {
-        // Encontra no repositório geral as solicitações
+        // Busca de agendamentos pendentes
         const consultasDisponiveis = this.consultaRepo.listar();
         const consultaAlvo = consultasDisponiveis.find((c: Consulta) => c.id === consultaId);
 
@@ -46,7 +49,7 @@ export class AprovarConsultaUseCase {
             throw new Error('Consulta não localizada no sistema.');
         }
 
-        // A secretária usa sua capacidade de ator de domínio para mudar e dar aval
+        // Autorização de agendamento pela Secretária
         secretaria.aprovarAgendamento(consultaAlvo);
         this.consultaRepo.salvar(consultaAlvo);
 
@@ -68,14 +71,14 @@ export class CancelarConsultaUseCase {
             throw new Error('Acesso não autorizado: Paciente não é dono desta consulta.');
         }
 
-        // Entidade paciente usa seu direito do sistema de cancelar
+        // Operação de cancelamento pelo Paciente
         paciente.cancelarConsulta(consultaAlvo.id);
         
-        // Alteração real de status
+        // Atualização de status
         consultaAlvo.alterarStatus('CANCELADA');
         this.consultaRepo.salvar(consultaAlvo);
 
-        // O sistema deve ser inteligente de acordo com as regras (liberar novo horario no array do Dentista)
+        // Liberação do horário na agenda do Dentista
         const horario = this.horariosRepo.buscarPorId(consultaAlvo.horarioId);
         if (horario) {
             horario.liberarHorario();

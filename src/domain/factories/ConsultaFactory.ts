@@ -1,6 +1,6 @@
 import { Consulta, ConsultaAvaliacao, ConsultaCirurgia } from '../entities/Consulta';
 
-// Factory Method: Centraliza a criação de consultas, facilitando a adição de novos tipos (Open-Closed).
+// Factory Method: Padronização na criação das heranças de Consulta.
 export class ConsultaFactory {
     public static criarConsulta(
         tipo: string,
