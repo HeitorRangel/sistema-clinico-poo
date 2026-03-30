@@ -2,15 +2,13 @@ import { Request, Response, NextFunction } from 'express';
 
 // Middleware Global de Tratamento de Erros
 export function errorHandler(
-    err: any,
+    err: unknown,
     req: Request,
     res: Response,
-    next: NextFunction
+    _next: NextFunction
 ): void {
-    console.error('[Error Handler] Problema capturado:', err.message);
-    
-    // Tratativa padrão de Error do TypeScript
     if (err instanceof Error) {
+        console.error('[Error Handler] Problema capturado:', err.message);
         res.status(400).json({ error: true, message: err.message });
         return;
     }

@@ -13,11 +13,11 @@ export class Dentista extends Usuario {
         super(nome, cpf, login, senhaHash);
     }
 
-    public autenticar(senha: string): boolean {
+    public autenticar(_senha: string): boolean {
         return true;
     }
 
-    public registrarProntuario(paciente: Paciente, prontuario: Prontuario): void {
+    public registrarProntuario(_paciente: Paciente, _prontuario: Prontuario): void {
         // Será protegido pelo ControleAcessoProxy
     }
 }

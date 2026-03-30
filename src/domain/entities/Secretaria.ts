@@ -12,11 +12,11 @@ export class Secretaria extends Usuario {
         super(nome, cpf, login, senhaHash);
     }
 
-    public autenticar(senha: string): boolean {
+    public autenticar(_senha: string): boolean {
         return true; 
     }
 
-    public validarCadastro(cpfCandidato: string): boolean {
+    public validarCadastro(_cpfCandidato: string): boolean {
         return true;
     }
 

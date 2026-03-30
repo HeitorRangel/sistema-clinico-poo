@@ -1,7 +1,6 @@
 import { IUsuarioRepository, IPacienteRepository } from '../../domain/repositories/interfaces';
 import { Usuario } from '../../domain/entities/Usuario';
 import { Secretaria } from '../../domain/entities/Secretaria';
-import { Paciente } from '../../domain/entities/Paciente';
 
 export class AutenticarUsuarioUseCase {
     constructor(private usuarioRepository: IUsuarioRepository) {}

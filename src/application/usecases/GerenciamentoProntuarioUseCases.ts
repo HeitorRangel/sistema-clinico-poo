@@ -1,5 +1,4 @@
 import { IProntuarioRepository, IConsultaRepository } from '../../domain/repositories/interfaces';
-import { Prontuario } from '../../domain/entities/Prontuario';
 import { Dentista } from '../../domain/entities/Dentista';
 
 export class GerenciarProntuarioUseCase {

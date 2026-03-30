@@ -62,8 +62,8 @@ consultasRouter.post('/solicitar', async (req: Request, res: Response) => {
             pacienteId: consulta.pacienteId,
             dentistaAprovado: dentistaVinculado ? dentistaVinculado.nome : 'Não Relacionado',
             horario: horario, // Mudando o nome pro Frontend conforme solicitado
-            valorTabelado: (consulta as any).valor || (consulta as any).valorBase || 0,
-            statusConsulta: (consulta as any).statusConsulta || 'SOLICITADA'
+            valorTabelado: consulta.valor || 0,
+            statusConsulta: consulta.statusConsulta || 'SOLICITADA'
         }
     });
 });

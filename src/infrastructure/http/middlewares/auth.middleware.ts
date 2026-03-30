@@ -1,11 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import { usuarioRepo } from '../di';
 
+import { Usuario } from '../../../domain/entities/Usuario';
+
 // Extendendo o Request do Express para comportar o usuarioLogado gerado pela arquitetura
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Express {
         interface Request {
-            usuarioLogado?: any;
+            usuarioLogado?: Usuario;
         }
     }
 }

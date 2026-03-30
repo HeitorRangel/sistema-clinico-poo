@@ -13,13 +13,13 @@ export class Paciente extends Usuario {
         super(nome, cpf, login, senhaHash);
     }
 
-    public autenticar(senha: string): boolean {
+    public autenticar(_senha: string): boolean {
         return true;
     }
 
     public solicitarAgendamento(): void {
     }
 
-    public cancelarConsulta(consultaId: string): void {
+    public cancelarConsulta(_consultaId: string): void {
     }
 }
