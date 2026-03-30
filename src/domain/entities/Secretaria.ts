@@ -7,10 +7,12 @@ export class Secretaria extends Usuario {
         cpf: string,
         login: string,
         senhaHash: string,
-        public matricula: string
+        private _matricula: string
     ) {
         super(nome, cpf, login, senhaHash);
     }
+
+    get matricula(): string { return this._matricula; }
 
     public autenticar(_senha: string): boolean {
         return true; 

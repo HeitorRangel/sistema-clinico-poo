@@ -6,12 +6,16 @@ export class Paciente extends Usuario {
         cpf: string,
         login: string,
         senhaHash: string,
-        public endereco: string,
-        public dataNascimento: Date,
-        public telefone: string
+        private _endereco: string,
+        private _dataNascimento: Date,
+        private _telefone: string
     ) {
         super(nome, cpf, login, senhaHash);
     }
+
+    get endereco(): string { return this._endereco; }
+    get dataNascimento(): Date { return this._dataNascimento; }
+    get telefone(): string { return this._telefone; }
 
     public autenticar(_senha: string): boolean {
         return true;

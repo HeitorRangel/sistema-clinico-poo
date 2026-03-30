@@ -8,10 +8,12 @@ export class Dentista extends Usuario {
         cpf: string,
         login: string,
         senhaHash: string,
-        public registroCRO: string
+        private _registroCRO: string
     ) {
         super(nome, cpf, login, senhaHash);
     }
+
+    get registroCRO(): string { return this._registroCRO; }
 
     public autenticar(_senha: string): boolean {
         return true;
