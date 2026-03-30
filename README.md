@@ -13,6 +13,8 @@ A arquitetura do projeto segue os preceitos rigorosos da **Clean Architecture** 
 
 O sistema foi estruturado para ser totalmente à prova de frameworks, separando as regras de negócio das tecnologias web.
 
+![Diagrama de Classes UML](docs/assets/diagrama-classes.png)
+
 1. **Domain (O Coração):** Entidades puras em POO (`Paciente`, `Consulta`, `Prontuario`).
 2. **Application (Casos de Uso):** A orquestração do sistema (`SolicitarConsulta`, `GerenciarProntuario`).
 3. **Infrastructure (Frameworks & Web):** Roteadores Express, Middlewares de Tratamento de Erro e Banco de Dados (In-Memory).
