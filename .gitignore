@@ -1,0 +1,29 @@
+# Dependências Locais
+node_modules/
+package-lock.json
+npm-debug.log
+
+# Diretórios de Build
+dist/
+build/
+
+# Variáveis Embutidas (.env)
+.env
+.env.test
+.env.development
+
+# Logs e Relatórios
+logs/
+*.log
+
+# Arquivos do Sistema Operacional
+.DS_Store
+Thumbs.db
+
+# Configurações do Editor (VSCode / Webstorm)
+.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

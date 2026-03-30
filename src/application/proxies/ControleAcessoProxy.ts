@@ -11,7 +11,7 @@ export interface IProntuarioService {
 }
 
 export interface IUsuarioService {
-    atualizarDadosPessoais(usuarioLogado: Usuario, dadosSalvos: Usuario, novosDados: any): void;
+    atualizarDadosPessoais(usuarioLogado: Usuario, dadosSalvos: Usuario, novosDados: Partial<Usuario>): void;
 }
 
 // Serviços Reais: Focados apenas na regra de manipulação dos registros (SRP)
@@ -31,8 +31,9 @@ export class ProntuarioService implements IProntuarioService {
 }
 
 export class UsuarioService implements IUsuarioService {
-    public atualizarDadosPessoais(usuarioLogado: Usuario, dadosSalvos: Usuario, novosDados: any): void {
-        dadosSalvos.nome = novosDados.nome || dadosSalvos.nome;
+    public atualizarDadosPessoais(usuarioLogado: Usuario, dadosSalvos: Usuario, novosDados: Partial<Usuario>): void {
+        if (novosDados.nome) dadosSalvos.nome = novosDados.nome;
+        // Não é permitido alterar CPF
     }
 }
 
@@ -82,7 +83,7 @@ export class ProntuarioProxy implements IProntuarioService {
 export class UsuarioProxy implements IUsuarioService {
     constructor(private servicoReal: IUsuarioService) {}
 
-    public atualizarDadosPessoais(usuarioLogado: Usuario, dadosSalvos: Usuario, novosDados: any): void {
+    public atualizarDadosPessoais(usuarioLogado: Usuario, dadosSalvos: Usuario, novosDados: Partial<Usuario>): void {
         if (usuarioLogado instanceof Secretaria) {
             return this.servicoReal.atualizarDadosPessoais(usuarioLogado, dadosSalvos, novosDados);
         }
