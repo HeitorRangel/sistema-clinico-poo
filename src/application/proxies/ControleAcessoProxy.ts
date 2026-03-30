@@ -94,3 +94,5 @@ export class UsuarioProxy implements IUsuarioService {
         throw new Error('Acesso negado: Tentativa de alterar informações de terceiros.');
     }
 }
+
+
