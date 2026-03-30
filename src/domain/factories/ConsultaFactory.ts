@@ -7,15 +7,16 @@ export class ConsultaFactory {
         id: string,
         pacienteId: string,
         dentistaId: string,
+        horarioId: string,
         valorBase: number
     ): Consulta {
         switch (tipo.toUpperCase()) {
             case 'AVALIACAO':
-                return new ConsultaAvaliacao(id, pacienteId, dentistaId, valorBase, 'SOLICITADA');
+                return new ConsultaAvaliacao(id, pacienteId, dentistaId, horarioId, valorBase, 'SOLICITADA');
             
             case 'CIRURGIA':
                 const sobretaxaCirurgica = 250.00;
-                return new ConsultaCirurgia(id, pacienteId, dentistaId, valorBase + sobretaxaCirurgica, 'SOLICITADA');
+                return new ConsultaCirurgia(id, pacienteId, dentistaId, horarioId, valorBase + sobretaxaCirurgica, 'SOLICITADA');
             
             default:
                 throw new Error(`O tipo de consulta informado (${tipo}) não é suportado.`);

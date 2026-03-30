@@ -5,7 +5,7 @@ import { Paciente } from '../../domain/entities/Paciente';
 
 export class ConsultaProxy implements IConsultaService {
   constructor(private consultaService: IConsultaService) { }
-  public async marcarConsulta(usuarioLogado: Usuario, tipoConsulta: string, dataConsulta: Date): Promise<Consulta> {
+  public async marcarConsulta(usuarioLogado: Usuario, tipoConsulta: string, horarioId: string): Promise<Consulta> {
 
     //  REGRA DE ACESSO
     if (!(usuarioLogado instanceof Paciente)) {
@@ -13,7 +13,7 @@ export class ConsultaProxy implements IConsultaService {
     }
 
     //  chama o service real
-    return await this.consultaService.marcarConsulta(usuarioLogado, tipoConsulta, dataConsulta);
+    return await this.consultaService.marcarConsulta(usuarioLogado, tipoConsulta, horarioId);
   }
 
   public async listarConsultas(usuarioLogado: Usuario): Promise<Consulta[]> {

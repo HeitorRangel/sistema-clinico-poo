@@ -3,6 +3,7 @@ export abstract class Consulta {
         public id: string,
         public pacienteId: string,
         public dentistaId: string,
+        public horarioId: string,
         public valor: number,
         public statusConsulta: 'SOLICITADA' | 'AGENDADA' | 'REALIZADA' | 'CANCELADA'
     ) {}

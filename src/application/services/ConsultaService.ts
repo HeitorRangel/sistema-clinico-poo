@@ -7,12 +7,12 @@ import { ConsultaFactory } from '../../domain/factories/ConsultaFactory';
 export class ConsultaService implements IConsultaService {
   constructor(private consultaRepository: IConsultaRepository) {}
   
-  public async marcarConsulta(usuarioLogado: Usuario, tipoConsulta: string, dataConsulta: Date): Promise<Consulta> {
+  public async marcarConsulta(usuarioLogado: Usuario, tipoConsulta: string, horarioId: string): Promise<Consulta> {
     // Usamos a factory real (com ids simulados por enquanto até finalizarem a Tarefa 1)
-    const consulta: Consulta = ConsultaFactory.criarConsulta(tipoConsulta, 'id-temp', usuarioLogado.cpf, 'dentista-null', 0);
+    const consulta: Consulta = ConsultaFactory.criarConsulta(tipoConsulta, 'id-temp', usuarioLogado.cpf, 'dentista-null', horarioId, 0);
 
     // Casting apenas para satisfazer a compilacão caso a entidade base ainda sofra mudança na Tarefa 1:
-    (consulta as any).data = dataConsulta; 
+    (consulta as any).horarioId = horarioId; 
 
     await this.consultaRepository.salvar(consulta);
     return consulta;
