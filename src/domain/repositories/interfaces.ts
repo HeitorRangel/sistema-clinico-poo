@@ -10,6 +10,8 @@ export interface IUsuarioRepository {
 
 export interface IConsultaRepository {
     buscarPorDentistaEPaciente(dentistaId: string, pacienteId: string): Consulta[];
+    salvar(consulta: Consulta): void;
+    buscarPorPaciente(cpf: string): Consulta[];
 }
 
 export interface IProntuarioRepository {
