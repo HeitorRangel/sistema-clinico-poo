@@ -1,5 +1,0 @@
-﻿docs: adicionar README e configuração base do Node
-
-- Documentado o setup inicial com Node.js e TS no README principal.
-- Adicionado .gitignore padrão para Node e pastas de Build.
-- Inicialização do package.json e tsconfig rigoroso para o ambiente.

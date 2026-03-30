@@ -1,50 +1,30 @@
-# 🦷 Sistema de Clínicas Odontológicas - Back-end POO
+# Sistema de Gestao de Clinicas Odontologicas
 
-Nesta etapa do projeto, nossa modelagem de Orientação a Objetos atingiu um ponto sólido! Construímos toda a camada central (Clean Architecture) com base nos Diagramas de Classes e Casos de Uso. 
+## Modulo Back-end (TypeScript)
 
-Para avançarmos agora para a fase dos Controladores (API Web) e testes de Regras de Negócio complexas, o projeto passou a **exigir o ecossistema do Node.js**.
+### Visao Geral
+Este repositorio contem o back-end do Sistema de Gestao de Clinicas Odontologicas. O sistema foi projetado para assegurar as regras de negocio centrais exigidas por profissionais de saude (Dentistas, Secretarias e Pacientes), gerenciando fluxos criticos como Prontuarios, Consultas, Horarios e Pagamentos.
 
----
+### Arquitetura de Software
+A arquitetura do projeto segue os preceitos rigorosos da **Clean Architecture** (Arquitetura Limpa) em conjunto com **TDD**, almejando alto isolamento e manutencao facilitada.
 
-## 🛠️ Por que precisamos do Node.js agora?
+Atualmente o sistema consolida as seguintes camadas implementadas:
 
-O Node.js permite executar códigos JavaScript/TypeScript fora do navegador. Precisamos dele no nosso projeto de Back-end por dois motivos fundamentais:
+1. **Entities / Domain (Camada Central)**
+   A principal definicao dos Atores e Elementos, incluindo a gerencia do escopo da `Consulta` amarrada individualmente aos `Horarios` pre-aprovados pela `Secretaria`, e o historico vitalicio via `Prontuario` exclusivo de cada `Paciente`. As entidades base nao tem dependencia externa, sendo regidas pelas intefaces rigorosas desenvolvidas (`IDentistaRepository`, `IPagamentoRepository`, etc.).
 
-1. **Gestor de Dependências (NPM):** Ele nos entrega o comando `npm`, que usamos para instalar o motor de compilação rigoroso do **TypeScript**, validando de fato que nossas Classes, Interfaces e Heranças estão blindadas contra erros (_type checking_).
-2. **Servidor HTTP Vivo (Próxima Fase):** Em breve instalaremos bibliotecas de rotas (como o Express.js). Só o Node.js é capaz de manter a sua máquina rodando "escutando a porta 8080" para o Cliente enviar requisições e a Clínica responder no formato JSON.
+2. **Design Patterns Utilizados**
+   O projeto empregou padroes do GoF para escalabilidade:
+   * **Factory Method (`ConsultaFactory`):** Centralizacao da instanciacao de especializacoes abstratas (Avaliatoria vs Cirurgica), injetando variacoes de regras e taxas sem quebrar contratos da entidade base.
+   * **Proxy Pattern (`ControleAcessoProxy` / `ConsultaProxy`):** Separacao (SRP) restrita do Controle de Acesso e Regras de Permissoes baseada em Polimorfismo. Interceptadores validam a Autenticacao e limitacao de leitura de prontuarios baseados no `CPF`/`CRO`.
 
----
+3. **Infrastructure (Data Storage)**
+   O projeto se encontra no estagio de Validacao de Casos de Uso (Application Rules). Para isolar a logica de negocio pura, os bancos de dados estao operando **Em-Memoria** (`/in-memory`). Os repositorios prevem a falsificacao perfeita das Consultas assincronas que serao posteriomente implementadas (ORM / SQL).
 
-## 🚀 Passo a Passo: Instalação e Preparação do Ambiente
+### Pre-Requisitos e Ambiente
+O back-end do sistema requer as seguintes dependencias de ambiente para o _typechecking_ e futuras disposicoes de Boundary (Web API).
+* **Node.js** (Ambiente de execucao assincrono voltado a requisicoes HTTP e gerencia de pacotes)
+* TypeScript Compiler nativo (via instalacao `npm`)
 
-Seja você um programador da equipe puxando (_pull_) essa nova versão ou clonando o sistema pela primeira vez, siga os passos estritamente nesta ordem:
-
-### Passo 1: Instale o Node.js na sua Máquina
-Se você ainda não tem, faça o download.
-1. Acesse o [Site Oficial do Node.js (Download)](https://nodejs.org/pt).
-2. Escolha sempre a aba principal e clique no botão **Instalador Windows (.msi)** ou equivalente para o Mac/Linux. Não instale versões marcadas com Docker se você não é devops!
-3. Execute o instalador ("Avançar", "Avançar", "Concluir").
-4. **Feche e abra novamente a sua IDE (VS Code)** para o terminal reconhecer a instalação.
-5. Verifique no terminal se funcionou rodando: `node -v` e `npm -v`.
-
-### Passo 2: Inicialize o Projeto (Download dos Pacotes)
-Toda a configuração de bibliotecas que usamos agora está mapeada no arquivo `package.json`. No terminal, dentro da pasta raiz do projeto, digite:
-```bash
-npm install
-```
-Dessa forma, o Node vai baixar os pacotes exclusivos deste projeto (como o compilador do Typescript) para dentro da pasta oculta chamada `node_modules` (que deve ser obrigatoriamente ignorada no Git).
-
-### Passo 3: Verifique a Compilação do TypeScript!
-Com tudo pronto, toda vez que você programar em algum arquivo `.ts` e quiser ter certeza de que você não infringiu nenhuma Interface de Repositório ou Regra de Typescript, apenas execute:
-```bash
-npx tsc --noEmit
-```
-**E pronto!** Se o terminal não devolver nenhuma mensagem de erro e simplesmente pular de linha, a sua Arquitetura está 100% íntegra e sem "gambiarras" (limpamos todos os tipos _`any`_ e forçamos contratos seguros).
-
----
-
-## 📋 Como Estamos Hoje (Repositórios Em-Memória)
-
-**Atenção Equipe:** Para permitir o rápido desenvolvimento dos _Use Cases_ pelas Duplas, optamos pela abordagem recomendada no isolamento das camadas. 
-Nossos repositórios **ainda não escrevem no Banco de Dados Real (SQL)**. Para salvar um Prontuário, estamos usando "Bancos Fakes" salvos literalmente na memória interna (`src/infrastructure/repositories/in-memory`). 
-Isso permite você programar toda a interface, validar a aplicação rodando, e plugar o Prisma/SQL só no último minuto sem quebrar uma linha de regras da clínica!
+### Proximos Passos (Em Andamento)
+O desenvolvimento foca atualmente na instanciacao dos Casos de Uso (Application Rules), mapeando o roteamento da Secretaria, fluxos unificados de solicitacao/aprovacao da Consulta e, em fase subsequente, Controladores HTTP para as APIs.
